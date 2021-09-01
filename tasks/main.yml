@@ -11,3 +11,7 @@
         owner: "{{ecc_daemon_user}}"
         group: "{{ecc_daemon_group}}"
         mode: '0755'
+
+    - name: install ecc
+      pip:
+        name: git+https://github.com/usegalaxy-no/ecc.git
