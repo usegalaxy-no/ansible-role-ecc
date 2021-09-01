@@ -1,0 +1,13 @@
+---
+# tasks file for ansible-role-ecc
+- name: Install and cofigure ecc daemon
+
+  block:
+                                                                                   
+    - name: Create ecc dir
+      file:
+        name: "{{ecc_base_dir}}"
+        state: directory
+        owner: "{{ecc_daemon_user}}"
+        group: "{{ecc_daemon_group}}"
+        mode: '0755'
