@@ -1,0 +1,24 @@
+#cloud-config
+# vim: syntax=yaml
+#
+# This is the configuration syntax that the write_files module
+# will know how to understand. encoding can be given b64 or gzip or (gz+b64).
+# The content will be decoded accordingly and then written to the path that is
+# provided.
+#
+# Note: Content strings here are truncated for example purposes.
+# Run yum upgrade
+#package_upgrade: true
+
+final_message: "The ecc node is up"
+
+users:
+  - default
+  - name: ecc
+    primary-group: ecc
+    groups: wheel
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    ssh-authorized-keys:
+      - "{{ecc_node_key-1}}"
+      - "{{ecc_node_key-2}}"
+      - "{{ecc_node_key-3}}"

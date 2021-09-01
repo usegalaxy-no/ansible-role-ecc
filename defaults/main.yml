@@ -3,3 +3,4 @@
 ecc_base_dir: /src/ecc
 ecc_daemon_user: sysadmin
 ecc_daemon_group: root
+ecc_log_dir: /var/log/ecc

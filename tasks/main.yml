@@ -6,12 +6,84 @@
                                                                                    
     - name: Create ecc dir
       file:
-        name: "{{ecc_base_dir}}"
+        path: "{{ ecc_base_dir }}"
         state: directory
-        owner: "{{ecc_daemon_user}}"
-        group: "{{ecc_daemon_group}}"
+        owner: "{{ ecc_daemon_user }}"
+        group: "{{ ecc_daemon_group }}"
         mode: '0755'
+  
+    - name: create the  virtualenv
+      shell: cd "{{ ecc_base_dir }}" && virtualenv -p /usr/bin/python3 venv && source venv/bin/activate
+    
+    - name: pip install ansible
+      pip:
+        virtualenv: "{{ ecc_base_dir }}/venv"
+        name: ansible
+      
 
     - name: install ecc
       pip:
         name: git+https://github.com/usegalaxy-no/ecc.git
+        virtualenv: "{{ ecc_base_dir }}/venv"
+
+    - name: checkout infrastructure playbook
+      git:
+        repo: https://github.com/usegalaxy-no/infrastructure-playbook.git
+        dest: "{{ ecc_base_dir }}"
+        update: yes
+        clone: yes
+        version: master
+    
+    - name: add ansible vault password to infrastructure-playbook/env/test/vault_password
+      lineinfile:
+        path: "{{ ecc_base_dir }}infrastructure-playbook/env/test/vault_password"
+        line: "{{ vault_password }}"
+
+    - name: add ansible vault password to infrastructure-playbook/env/main/vault_password
+      lineinfile:
+        path: "{{ ecc_base_dir }}infrastructure-playbook/env/main/vault_password"
+        line: "{{ vault_password }}"
+    
+    - name: make a symlink for ecc.yml into Ansible playbooks folder
+      file:
+        state: link
+        src: "{{ ecc_base_dir }}/ecc.yaml"
+        dest: "{{ ecc_base_dir }}/infrastructure-playbook/env/test/ecc.yaml"
+    
+    - name: copy the config file
+      template:
+        src: ecc.yml.j2
+        dest: "{{ ecc_base_dir }}/ecc.yaml"
+        owner: "{{ ecc_daemon_user }}"
+        group: "{{ ecc_daemon_group }}"
+        mode: '0755'
+    
+    - name: copy ecc_node.yaml
+      template:
+        src: ecc_node.yaml.j2
+        dest: "{{ ecc_base_dir }}/ecc_node.yaml"
+        owner: "{{ ecc_daemon_user }}"
+        group: "{{ ecc_daemon_group }}"
+        mode: '0755'
+    
+    - name: create log dir
+      file:
+        path: "{{ ecc_log_dir }}"
+        state: directory
+        owner: "{{ ecc_daemon_user }}"
+        group: "{{ ecc_daemon_group }}"
+        mode: '0755'
+
+    - name: copy systemd manifest
+      template:
+        src: ecc.service.j2
+        dest: /usr/lib/systemd/system/eccd.service
+        owner: root
+        group: root
+        mode: '0644'
+    
+    - name: enable and start ecc
+      service:
+        name: ecc
+        state: started
+        enabled: yes
