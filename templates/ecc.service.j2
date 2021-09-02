@@ -5,11 +5,11 @@ After=galaxy.service
 [Service]
 UMask=022
 Type=simple
-User="{{ecc_daemon_user}}"
-Group="{{ecc_daemon_group}}"
-WorkingDirectory="{{ecc_base_dir}]"
+User={{ ecc_daemon_user }}
+Group={{ ecc_daemon_group }}
+WorkingDirectory={{ ecc_base_dir }}
 TimeoutStartSec=10
-ExecStart="{{ecc_base_dir}}/venv/bin/python3" "{{ecc_base_dir}}bin/eccd.py" ecc.yaml -l "{{ecc_log_dir}}/eccd.log"
+ExecStart={{ ecc_base_dir }}/venv/bin/python3 {{ ecc_base_dir }}/venv/bin/eccd.py ecc.yaml -l {{ ecc_log_dir }}/eccd.log
 Restart=always
 
 [Install]

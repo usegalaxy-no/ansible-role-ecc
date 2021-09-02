@@ -12,8 +12,22 @@
         group: "{{ ecc_daemon_group }}"
         mode: '0755'
 
+    - name: install pkgs
+      package:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - python3-virtualenv
+
     - name: create the  virtualenv
       shell: cd "{{ ecc_base_dir }}" && virtualenv -p /usr/bin/python3 venv && source venv/bin/activate
+
+    - name: pip upgrade
+      pip:
+        virtualenv: "{{ ecc_base_dir }}/venv"
+        name: pip
+        extra_args: --upgrade
+
 
     - name: pip install ansible
       pip:
@@ -29,26 +43,18 @@
     - name: checkout infrastructure playbook
       git:
         repo: https://github.com/usegalaxy-no/infrastructure-playbook.git
-        dest: "{{ ecc_base_dir }}"
+        dest: "{{ ecc_base_dir }}/infrastructure-playbook"
         update: yes
         clone: yes
         version: master
 
-    - name: add ansible vault password to infrastructure-playbook/env/test/vault_password
-      lineinfile:
-        path: "{{ ecc_base_dir }}infrastructure-playbook/env/test/vault_password"
-        line: "{{ vault_password }}"
-
-    - name: add ansible vault password to infrastructure-playbook/env/main/vault_password
-      lineinfile:
-        path: "{{ ecc_base_dir }}infrastructure-playbook/env/main/vault_password"
-        line: "{{ vault_password }}"
-
-    - name: make a symlink for ecc.yml into Ansible playbooks folder
-      file:
-        state: link
-        src: "{{ ecc_base_dir }}/ecc.yaml"
-        dest: "{{ ecc_base_dir }}/infrastructure-playbook/env/test/ecc.yaml"
+    - name: copy vault password files
+      template:
+        dest: "{{ item }}"
+        src: vault_password.j2
+      with_items:
+        - "{{ ecc_base_dir }}/infrastructure-playbook/env/test/vault_password"
+        - "{{ ecc_base_dir }}/infrastructure-playbook/env/main/vault_password"
 
     - name: copy the config file
       template:
@@ -57,6 +63,13 @@
         owner: "{{ ecc_daemon_user }}"
         group: "{{ ecc_daemon_group }}"
         mode: '0755'
+
+
+    - name: make a symlink for ecc.yml into Ansible playbooks folder
+      file:
+        state: link
+        src: "{{ ecc_base_dir }}/ecc.yaml"
+        dest: "{{ ecc_base_dir }}/infrastructure-playbook/env/test/ecc.yaml"
 
     - name: copy ecc_node.yaml
       template:
@@ -84,6 +97,6 @@
 
     - name: enable and start ecc
       service:
-        name: ecc
+        name: eccd
         state: started
         enabled: yes

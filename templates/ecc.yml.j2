@@ -6,8 +6,8 @@ openstack:
     #project_name: uib-ii-usegalaxy
     region_name: bgo
     user_domain_name: dataporten
-    username: "{{openstack_user1}}"
-    password: "{{openstack_password1}}"
+    username: "{{ openstack_user1 }}"
+    password: "{{ openstack_password1 }}"
 
 ecc:
     log: ecc.log
@@ -21,8 +21,8 @@ ecc:
     network: dualStack
     security_groups: slurm-node
     name_template: "ecc{}.usegalaxy.no"
-    cloudflare_apikey: "{{cloudflare_api_token}}" 
-    cloudflare_email: "{{dnsadmin@ii.uib.no}}"
+    cloudflare_apikey: "{{ cloudflare_api_token }}" 
+    cloudflare_email: "{{ cloudflare_email }}"
     cloud_init: /srv/ecc/ecc_node.yaml
     ansible_cmd: "/srv/ecc/venv/bin/ansible-playbook -i '/srv/ecc/bin/ecc_nodes.py' slurm.yml -e'ansible_user=centos'"
-    ansible_dir: /srv/ecc/infrastructure-playbook/env/m
+    ansible_dir: /srv/ecc/infrastructure-playbook/env/main
