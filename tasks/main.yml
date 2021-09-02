@@ -3,7 +3,7 @@
 - name: Install and cofigure ecc daemon
 
   block:
-                                                                                 
+                                                                           
     - name: Create ecc dir
       file:
         path: "{{ ecc_base_dir }}"
@@ -43,13 +43,13 @@
       lineinfile:
         path: "{{ ecc_base_dir }}infrastructure-playbook/env/main/vault_password"
         line: "{{ vault_password }}"
-  
+
     - name: make a symlink for ecc.yml into Ansible playbooks folder
       file:
         state: link
         src: "{{ ecc_base_dir }}/ecc.yaml"
         dest: "{{ ecc_base_dir }}/infrastructure-playbook/env/test/ecc.yaml"
-  
+
     - name: copy the config file
       template:
         src: ecc.yml.j2
