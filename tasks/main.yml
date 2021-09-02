@@ -3,7 +3,7 @@
 - name: Install and cofigure ecc daemon
 
   block:
-                                                                           
+                                                                   
     - name: Create ecc dir
       file:
         path: "{{ ecc_base_dir }}"
