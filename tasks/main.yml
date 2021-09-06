@@ -64,6 +64,13 @@
         group: "{{ ecc_daemon_group }}"
         mode: '0755'
 
+    - name: copy the wrapper script
+      template:
+        src: eccd_wrapper.j2
+        dest: "/home/sysadmin/ecc_wrapper.sh"
+        owner: "{{ ecc_daemon_user }}"
+        group: "{{ ecc_daemon_group }}"
+        mode: '0755'
 
     - name: make a symlink for ecc.yml into Ansible playbooks folder
       file:

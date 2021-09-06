@@ -1,0 +1,11 @@
+#!/bin/bash
+
+sudo -u  sysadmin -i <<EOF
+
+export HOME=/home/sysadmin
+
+cd /srv/ecc
+virtualenv -p /usr/bin/python3 venv
+source venv/bin/activate 
+bin/eccd.py ecc.yaml -l /var/log/ecc/eccd.log
+EOF

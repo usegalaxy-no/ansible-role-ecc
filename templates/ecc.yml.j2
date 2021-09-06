@@ -2,9 +2,8 @@ openstack:
     auth_url: https://api.uh-iaas.no:5000/v3
     image: 578114a1-3b45-4367-8130-b46fdea32820
     project_domain_name: dataporten
-    project_name: elixir-nrec-prod-backend
-    #project_name: uib-ii-usegalaxy
-    region_name: bgo
+    project_name: {{ openstack_prjname }}
+    region_name: {{ openstack_region_name }}
     user_domain_name: dataporten
     username: "{{ openstack_user1 }}"
     password: "{{ openstack_password1 }}"
@@ -15,14 +14,14 @@ ecc:
     nodes_min: 2
     nodes_spare: 2
     sleep: 30
-    flavor: shpc.m1a.8xlarge
+    flavor: {{ openstack_flavor }}
     image: GOLD CentOS 7
-    key: usegalaxy
+    key: {{ openstack_key }}
     network: dualStack
     security_groups: slurm-node
-    name_template: "ecc{}.usegalaxy.no"
+    name_template: {{ openstack_name_template }}
     cloudflare_apikey: "{{ cloudflare_api_token }}" 
     cloudflare_email: "{{ cloudflare_email }}"
     cloud_init: /srv/ecc/ecc_node.yaml
     ansible_cmd: "/srv/ecc/venv/bin/ansible-playbook -i '/srv/ecc/bin/ecc_nodes.py' slurm.yml -e'ansible_user=centos'"
-    ansible_dir: /srv/ecc/infrastructure-playbook/env/main
+    ansible_dir: {{ ansible_dir }}
