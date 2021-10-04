@@ -8,5 +8,5 @@ openstack_prjname: "{% if ansible_nodename == 'usegalaxy.no' %}elixir-nrec-prod-
 openstack_region_name: bgo
 openstack_flavor: "{% if ansible_nodename == 'usegalaxy.no' %}shpc.m1a.8xlarge{% elif ansible_nodename == 'test.usegalaxy.no' %}shpc.m1a.8xlarge{% endif %}"
 openstack_key: "{% if ansible_nodename == 'usegalaxy.no' %}usegalaxy{% elif ansible_nodename == 'test.usegalaxy.no' %}usegalaxy-test{% endif %}"
-openstack_name_template: "{% if ansible_nodename == 'usegalaxy.no' %}'"ecc{}.usegalaxy.no"'{%  elif ansible_nodename == 'test.usegalaxy.no' %}'"ecc{}.test.usegalaxy.no"'{% endif %}"
+openstack_name_template: "{% if ansible_nodename == 'usegalaxy.no' %}ecc{}.usegalaxy.no{%  elif ansible_nodename == 'test.usegalaxy.no' %}ecc{}.test.usegalaxy.no{% endif %}"
 ansible_dir: "{% if ansible_nodename == 'usegalaxy.no' %}/srv/ecc/infrastructure-playbook/env/main{%  elif ansible_nodename == 'test.usegalaxy.no' %}/srv/ecc/infrastructure-playbook/env/test{% endif %}"
