@@ -79,7 +79,7 @@
         owner: "{{ ecc_daemon_user }}"
         group: "{{ ecc_daemon_group }}"
         mode: '0755'
-  
+
     - name: make a symlink for ecc.yml into Ansible playbooks folder
       file:
         state: link
