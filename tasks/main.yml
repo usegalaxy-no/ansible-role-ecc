@@ -110,6 +110,9 @@
         group: root
         mode: '0644'
 
+    - name: reload systemd
+      command: systemctl daemon-reload
+       
     - name: enable and start ecc
       service:
         name: eccd
