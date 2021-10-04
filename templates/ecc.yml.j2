@@ -23,6 +23,6 @@ ecc:
     cloudflare_apikey: "{{ cloudflare_api_token }}" 
     cloudflare_email: "{{ cloudflare_email }}"
     cloud_init: /srv/ecc/ecc_node.yaml
-    ansible_cmd: "cd /srv/ecc/infrastructure-playbook/ ; git pull && /srv/ecc/venv/bin/ansible-playbook -i '/srv/ecc/bin/ecc_nodes.py' slurm.yml -e'ansible_user=centos'"
+    ansible_cmd: "/srv/ecc/venv/bin/ansible-playbook -i '/srv/ecc/bin/ecc_nodes.py' slurm.yml -e'ansible_user=centos'"
     ansible_dir: {{ ansible_dir }}
 
