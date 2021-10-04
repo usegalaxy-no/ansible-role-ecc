@@ -10,9 +10,9 @@ openstack:
 
 ecc:
     log: ecc.log
-    nodes_max: 6
-    nodes_min: 2
-    nodes_spare: 2
+    nodes_max: {{ nodes_max }}
+    nodes_min: {{ nodes_min }}
+    nodes_spare: {{ nodes_spare }}
     sleep: 30
     flavor: {{ openstack_flavor }}
     image: GOLD CentOS 7
@@ -26,4 +26,3 @@ ecc:
     ansible_cmd: "/srv/ecc/venv/bin/ansible-playbook -i '/srv/ecc/bin/ecc_nodes.py' slurm.yml -e'ansible_user=centos'"
     ansible_dir: {{ ansible_dir }}
 
-    
