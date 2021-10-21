@@ -96,14 +96,14 @@
         owner: "{{ ecc_daemon_user }}"
         group: "{{ ecc_daemon_group }}"
         mode: '0755'
-      tags:
-        - cron
     
     - name: create cronjob to refresh infrastructure repo
       cron:
         user: "{{ ecc_daemon_user }}"
         job: "cd {{ ecc_base_dir }}/infrastructure-playbook/ ; git pull > /dev/null > 2>&1"
         minute: "00,30"
+      tags:
+        - cron
 
 
     - name: create log dir
