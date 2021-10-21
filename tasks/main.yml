@@ -100,7 +100,7 @@
     - cron:
         name: "refresh infrastructure repo for ecc"
         user: "{{ ecc_daemon_user }}"
-        job: "cd {{ ecc_base_dir }}/infrastructure-playbook/ ; git pull > /dev/null > 2>&1"
+        job: "cd {{ ecc_base_dir }}/infrastructure-playbook/ ; git pull > /dev/null 2>&1"
         minute: "00,30"
       tags:
         - cron
