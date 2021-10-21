@@ -96,6 +96,8 @@
         owner: "{{ ecc_daemon_user }}"
         group: "{{ ecc_daemon_group }}"
         mode: '0755'
+      tags:
+        - cron
     
     - name: create cronjob to refresh infrastructure repo
       cron:
