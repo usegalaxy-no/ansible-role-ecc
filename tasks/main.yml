@@ -52,6 +52,9 @@
       template:
         dest: "{{ item }}"
         src: vault_password.j2
+        owner: "{{ ecc_daemon_user }}"
+        group: "{{ ecc_daemon_group }}"
+        mode: '0600'
       with_items:
         - "{{ ecc_base_dir }}/infrastructure-playbook/env/test/vault_password"
         - "{{ ecc_base_dir }}/infrastructure-playbook/env/main/vault_password"
@@ -97,7 +100,7 @@
     - name: create cronjob to refresh infrastructure repo
       cron:
         user: "{{ ecc_daemon_user }}"
-        job: "cd {{ ecc_base_dir }}/infrastructure-playbook/ ; git pull > /dev/null > 2>&1";
+        job: "cd {{ ecc_base_dir }}/infrastructure-playbook/ ; git pull > /dev/null > 2>&1"
         minute: "00,30"
 
 
